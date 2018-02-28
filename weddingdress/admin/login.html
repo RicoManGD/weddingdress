@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>登录管理</title>
+<meta name="description" content="登录界面">
+<meta name="keywords" content="登录界面">
+<link rel="stylesheet" type="text/css" href="../common/css/login.css"/>
+<script type="text/javascript" src="../common/lib/jquery-1.9.0.min.js"></script>
+
+</head>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#register").click(function(){
+		window.location.href="register.html";
+	});
+	$("#username").blur(function(){
+		var reg= /^\w+$/;
+		var username=$.trim($(this).val());
+		if(username!=""){
+			if(!(reg.test(username))){
+				$("#Uspan").html("格式错误");
+			}
+		}		
+	});
+	$("#username").focus(function(){
+		$("#Uspan").html("");
+
+	});
+	$("#password").blur(function(){
+		var reg=/^\w{6}$/;
+		if($(this).val()!=""){
+			if(!reg.test($(this).val())){
+				$("#Pspan").html("密码格式错误");
+			}
+		}
+	});
+	$("#password").focus(function(){
+		$("#Pspan").html("");
+	});
+	
+	/*AJAX*/
+    $("#submit").click(function(){
+	    $.post("login.php",{username:$("#username").val(),password:$("#password").val()},function(date){
+		     if(date=='true'){
+		     	window.location.href="index.php";
+		     }else{
+		    	 $("#Pspan").html("信息错误");
+		     }
+	     },'text')
+     });
+});
+
+
+
+
+</script>
+<body>
+<div id="login">
+<h1>用户登录</h1>	
+	<form action="" method="post">
+		<p class="p"><input type="text" name="username" id="username" placeholder="请输入用户名"><span id="Uspan"></span></p>
+		<p class="p"><input type="password" name="password" id="password" placeholder="密码"><span id="Pspan"></span></p>
+		<p><input type="button" id="submit" value="登录"></p>
+		
+	</form>
+</div>
+<div style="text-align:center;">
+<p>Most Handsome:<a href="#" target="_blank">Twenty-seven612</a></p>
+</div>
+</body>
+</html>
